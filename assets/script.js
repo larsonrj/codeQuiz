@@ -3,6 +3,7 @@ var containerEl = document.querySelector(".card");
 var titleEl = document.querySelector(".title");
 var questionEl = document.querySelector(".questions");
 var startButton = document.querySelector(".start-button");
+var incorrectEl = document.querySelector(".hidden");
 var questionIndex = 0;
 
 // Create array of objects to contain question data
@@ -64,20 +65,23 @@ function renderQuestions() {
   while (containerEl.firstChild) {
     containerEl.removeChild(containerEl.firstChild);
   }
-  containerEl.setAttribute("class", "quiz");
-  var h1El = document.createElement("h1");
-  h1El.setAttribute("class", "title");
-  h1El.textContent = prompt[questionIndex].title;
-  containerEl.appendChild(h1El);
-  var h2El = document.createElement("h2");
-  h1El.setAttribute("class", "question");
-  h2El.textContent = prompt[questionIndex].question;
-  containerEl.appendChild(h2El);
-  for (var i = 0; i < prompt[questionIndex].answer.length; i++) {
-    var button = document.createElement("button");
-    button.setAttribute("class", "button");
-    button.textContent = prompt[questionIndex].answer[i];
-    containerEl.appendChild(button);
+  if (questionIndex <= prompt.length) {
+    containerEl.setAttribute("class", "quiz");
+    var h1El = document.createElement("h1");
+    h1El.setAttribute("class", "title");
+    h1El.textContent = prompt[questionIndex].title;
+    containerEl.appendChild(h1El);
+    var h2El = document.createElement("h2");
+    h1El.setAttribute("class", "question");
+    h2El.textContent = prompt[questionIndex].question;
+    containerEl.appendChild(h2El);
+    for (var i = 0; i < prompt[questionIndex].answer.length; i++) {
+      var button = document.createElement("button");
+      button.setAttribute("class", "button");
+      button.textContent = prompt[questionIndex].answer[i];
+      containerEl.appendChild(button);
+    }
+  } else {
   }
 }
 
@@ -85,106 +89,20 @@ containerEl.addEventListener("click", function (event) {
   var answer = event.target.textContent;
   if (answer === prompt[questionIndex].correct) {
     questionIndex++;
+    correctAnswer();
     console.log("correct");
     renderQuestions();
   } else {
-    console.log("incorrect");
+    incorrectAnswer();
     renderQuestions();
   }
 });
 
-// // Create event listener awaiting the answer to be clicked
-// quizButton.addEventListener("click", function (event) {
-//   console.log(event.target.textContent);
-// });
+function incorrectAnswer() {
+  incorrectEl.setAttribute("class", "shown");
+  console.log(incorrectEl);
+}
 
-// for (var i = 0; i < prompt.length; i++) {
-//   var h1El = document.createElement("h1");
-//   //   h1El[i].setAttribute("class", "title");
-//   //   h1El[i].textContent = prompt[i].title;
-// }
-// console.log(h1El);
-// var h1El = document.createElement("h1");
-// var h2El = document.createElement("h2");
-// h1El.setAttribute("class", "title");
-// h2El.setAttribute("class", "questions");
-
-// var button1 = document.createElement("button");
-// button1.setAttribute("class", "button");
-// var button2 = document.createElement("button");
-// button2.setAttribute("class", "button");
-// var button3 = document.createElement("button");
-// button3.setAttribute("class", "button");
-// var button4 = document.createElement("button");
-// button4.setAttribute("class", "button");
-
-// // Set initial form for page to start quiz
-// function initialPage() {
-//   var state = containerEl.getAttribute("data-state");
-
-//   if (state === "initial") {
-//     containerEl.appendChild(h1El);
-//     containerEl.appendChild(h2El);
-//     containerEl.appendChild(button1);
-//     h1El.textContent = prompt[0].title;
-//     h2El.textContent = prompt[0].start;
-//     button1.textContent = prompt[0].answer1;
-//   } else {
-//     while (containerEl.firstChild) {
-//       containerEl.removeChild(containerEl.firstChild);
-//     }
-//     containerEl.setAttribute("class", "quiz");
-//     containerEl.appendChild(h1El);
-//     containerEl.appendChild(h2El);
-//     containerEl.appendChild(button1);
-//     containerEl.appendChild(button2);
-//     containerEl.appendChild(button3);
-//     containerEl.appendChild(button4);
-//     h1El.textContent = prompt[1].title;
-//     h2El.textContent = prompt[1].question;
-//     button1.textContent = prompt[1].answer1;
-//     button2.textContent = prompt[1].answer2;
-//     button3.textContent = prompt[1].answer3;
-//     button4.textContent = prompt[1].answer4;
-//   }
-// }
-
-// initialPage();
-
-// // Change to quiz state with event listener
-// containerEl.addEventListener("click", function (event) {
-//   event.stopPropagation();
-//   var state = containerEl.getAttribute("data-state");
-//   if (state === "initial") {
-//     containerEl.dataset.state = "quiz";
-//     initialPage();
-//     quizGuess();
-//   }
-// });
-
-// function quizGuess() {
-//   if (state === "quiz") {
-//     containerEl.addEventListener("click", function (event) {
-//       guess = event.target.textContent;
-//     });
-//     if (guess === prompt[1].answer) {
-//       console.log("correct");
-//     }
-//   }
-// }
-
-//     if (event.target.textContent === prompt[i].correct) {
-//       do {
-//         i = i + 1;
-//         h1El.textContent = prompt[i].title;
-//         h2El.textContent = prompt[i].question;
-//         button1.textContent = prompt[i].answer1;
-//         button2.textContent = prompt[i].answer2;
-//         button3.textContent = prompt[i].answer3;
-//         button4.textContent = prompt[i].answer4;
-//       } while (i < prompt.length);
-//     } else {
-//       console.log("incorrect");
-//     }
-//   }
-// });
+function correctAnswer() {
+  incorrectEl.setAttribute("class", "hidden");
+}
