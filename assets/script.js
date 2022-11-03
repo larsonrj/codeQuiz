@@ -89,14 +89,16 @@ function renderQuestions() {
 }
 
 containerEl.addEventListener("click", function (event) {
-  var answer = event.target.textContent;
-  if (answer === prompt[questionIndex].correct) {
-    questionIndex++;
-    correctAnswer();
-    renderQuestions();
-  } else {
-    incorrectAnswer();
-    renderQuestions();
+  if (event.target.matches(".button")) {
+    var answer = event.target.textContent;
+    if (answer === prompt[questionIndex].correct) {
+      questionIndex++;
+      correctAnswer();
+      renderQuestions();
+    } else {
+      incorrectAnswer();
+      renderQuestions();
+    }
   }
 });
 
