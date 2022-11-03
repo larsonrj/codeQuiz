@@ -4,7 +4,11 @@ var titleEl = document.querySelector(".title");
 var questionEl = document.querySelector(".questions");
 var startButton = document.querySelector(".start-button");
 var incorrectEl = document.querySelectorAll(".hidden");
-console.log(incorrectEl[1]);
+var timeEl = document.querySelector(".time-left");
+var timer;
+var timerCount = 75;
+timeEl.textContent = timerCount;
+var isWin = false;
 var questionIndex = 0;
 
 // Create array of objects to contain question data
@@ -55,9 +59,9 @@ startButton.addEventListener("click", startGame);
 // Start game will render the first question and start timer after the start button is clicked
 function startGame(event) {
   event.stopImmediatePropagation();
-  //   isWin = false;
-  //   timerCount = 10;
-  //   startTimer ();
+  isWin = false;
+  timerCount = 75;
+  startTimer();
   renderQuestions();
 }
 
@@ -84,10 +88,12 @@ function renderQuestions() {
     }
   } else {
     containerEl.setAttribute("class", "hidden");
+    isWin = true;
     userInput();
   }
 }
 
+// Event listener waiting for user to click on the answer for the question
 containerEl.addEventListener("click", function (event) {
   if (event.target.matches(".button")) {
     var answer = event.target.textContent;
@@ -96,20 +102,53 @@ containerEl.addEventListener("click", function (event) {
       correctAnswer();
       renderQuestions();
     } else {
+      if (timerCount > 10) {
+        timerCount -= 10;
+      } else {
+        timerCount = 0;
+      }
       incorrectAnswer();
       renderQuestions();
     }
   }
 });
 
+// Function for when the user chooses the incorrect answer
 function incorrectAnswer() {
+  timerCount;
   incorrectEl[0].setAttribute("class", "shown");
 }
 
+// Function for when user chooses the correct answer
 function correctAnswer() {
   incorrectEl[0].setAttribute("class", "hidden");
 }
 
+// Function for when the user passes the last question
 function userInput() {
   incorrectEl[1].setAttribute("class", "card");
+}
+
+// Function to start timer
+function startTimer() {
+  // Sets timer
+  timer = setInterval(function () {
+    if (timerCount > 0) {
+      timerCount--;
+    }
+    timeEl.textContent = timerCount;
+    if (timerCount >= 0) {
+      // Tests if win condition is met
+      if (isWin && timerCount > 0) {
+        // Clears interval and stops timer
+        clearInterval(timer);
+      }
+    }
+    if (timerCount === 0) {
+      questionIndex = prompt.length;
+      clearInterval(timer);
+      correctAnswer();
+      renderQuestions();
+    }
+  }, 1000);
 }
