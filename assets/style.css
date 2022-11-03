@@ -91,7 +91,24 @@ main {
   border-radius: 8px;
 }
 
+.start-button {
+  padding: 5px;
+  width: 25%;
+  max-height: 50px;
+  margin: 15px;
+  color: var(--white);
+  background-color: #002244;
+  flex-grow: 1;
+  font-size: 1.25rem;
+  border-radius: 8px;
+}
+
 .button:hover {
+  border: 2px solid var(--white);
+  color: var(--orange);
+}
+
+.start-button:hover {
   border: 2px solid var(--white);
   color: var(--orange);
 }
