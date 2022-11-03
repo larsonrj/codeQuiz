@@ -5,6 +5,8 @@ var questionEl = document.querySelector(".questions");
 var startButton = document.querySelector(".start-button");
 var incorrectEl = document.querySelectorAll(".hidden");
 var timeEl = document.querySelector(".time-left");
+var submitButton = document.querySelector(".submit");
+var clearButton = document.querySelector(".clear");
 var timer;
 var timerCount = 75;
 timeEl.textContent = timerCount;
@@ -54,6 +56,7 @@ var prompt = [
   },
 ];
 
+scoreboard();
 // Create event listener to start the game when the start button is clicked
 startButton.addEventListener("click", startGame);
 
@@ -156,6 +159,36 @@ function startTimer() {
   }, 1000);
 }
 
+// Sets score on the score submittal page
 function setScore() {
   scoreEl.textContent = timerCount;
 }
+
+// Event listener for score input
+submitButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  var initials = document.querySelector("#initials").value;
+  localStorage.setItem("initials", initials);
+  var score = timerCount;
+  localStorage.setItem("score", score);
+  incorrectEl[1].setAttribute("class", "hidden");
+  incorrectEl[2].setAttribute("class", "card");
+  scoreboard();
+});
+
+function scoreboard() {
+  var listEl = document.querySelector(".list");
+  var liEl = document.createElement("li");
+  var initials = localStorage.getItem("initials");
+  var score = localStorage.getItem("score");
+  liEl.textContent = initials + " Score: " + score;
+  listEl.appendChild(liEl);
+}
+
+clearButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  var listEl = document.querySelector(".list");
+  while (listEl.firstChild) {
+    listEl.removeChild(listEl.firstChild);
+  }
+});
