@@ -3,7 +3,8 @@ var containerEl = document.querySelector(".card");
 var titleEl = document.querySelector(".title");
 var questionEl = document.querySelector(".questions");
 var startButton = document.querySelector(".start-button");
-var incorrectEl = document.querySelector(".hidden");
+var incorrectEl = document.querySelectorAll(".hidden");
+console.log(incorrectEl[1]);
 var questionIndex = 0;
 
 // Create array of objects to contain question data
@@ -65,7 +66,7 @@ function renderQuestions() {
   while (containerEl.firstChild) {
     containerEl.removeChild(containerEl.firstChild);
   }
-  if (questionIndex <= prompt.length) {
+  if (questionIndex < prompt.length) {
     containerEl.setAttribute("class", "quiz");
     var h1El = document.createElement("h1");
     h1El.setAttribute("class", "title");
@@ -82,6 +83,8 @@ function renderQuestions() {
       containerEl.appendChild(button);
     }
   } else {
+    containerEl.setAttribute("class", "hidden");
+    userInput();
   }
 }
 
@@ -90,7 +93,6 @@ containerEl.addEventListener("click", function (event) {
   if (answer === prompt[questionIndex].correct) {
     questionIndex++;
     correctAnswer();
-    console.log("correct");
     renderQuestions();
   } else {
     incorrectAnswer();
@@ -99,10 +101,13 @@ containerEl.addEventListener("click", function (event) {
 });
 
 function incorrectAnswer() {
-  incorrectEl.setAttribute("class", "shown");
-  console.log(incorrectEl);
+  incorrectEl[0].setAttribute("class", "shown");
 }
 
 function correctAnswer() {
-  incorrectEl.setAttribute("class", "hidden");
+  incorrectEl[0].setAttribute("class", "hidden");
+}
+
+function userInput() {
+  incorrectEl[1].setAttribute("class", "card");
 }
