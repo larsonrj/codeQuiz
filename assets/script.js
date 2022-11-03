@@ -9,6 +9,7 @@ var timer;
 var timerCount = 75;
 timeEl.textContent = timerCount;
 var isWin = false;
+var scoreEl = document.querySelector(".final-score");
 var questionIndex = 0;
 
 // Create array of objects to contain question data
@@ -142,6 +143,7 @@ function startTimer() {
       if (isWin && timerCount > 0) {
         // Clears interval and stops timer
         clearInterval(timer);
+        setScore();
       }
     }
     if (timerCount === 0) {
@@ -149,6 +151,11 @@ function startTimer() {
       clearInterval(timer);
       correctAnswer();
       renderQuestions();
+      setScore();
     }
   }, 1000);
+}
+
+function setScore() {
+  scoreEl.textContent = timerCount;
 }
