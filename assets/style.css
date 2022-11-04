@@ -139,3 +139,8 @@ main {
   display: flex;
   align-items: center;
 }
+
+.scores:link,
+.scores:visited {
+  color: var(--orange);
+}

@@ -7,6 +7,8 @@ var incorrectEl = document.querySelectorAll(".hidden");
 var timeEl = document.querySelector(".time-left");
 var submitButton = document.querySelector(".submit");
 var clearButton = document.querySelector(".clear");
+var scoreButton = document.querySelector(".scores");
+var overButton = document.querySelector(".over");
 var timer;
 var timerCount = 75;
 timeEl.textContent = timerCount;
@@ -65,6 +67,7 @@ function startGame(event) {
   event.stopImmediatePropagation();
   isWin = false;
   timerCount = 75;
+  scoreButton.setAttribute("style", "pointer-events:none;");
   startTimer();
   renderQuestions();
 }
@@ -174,8 +177,10 @@ submitButton.addEventListener("click", function (event) {
   incorrectEl[1].setAttribute("class", "hidden");
   incorrectEl[2].setAttribute("class", "card");
   scoreboard();
+  scoreButton.setAttribute("style", "pointer-events:auto;");
 });
 
+// Stores the initials and score to the scoreboard
 function scoreboard() {
   var listEl = document.querySelector(".list");
   var liEl = document.createElement("li");
@@ -185,10 +190,25 @@ function scoreboard() {
   listEl.appendChild(liEl);
 }
 
+// Clears out the scoreboard
 clearButton.addEventListener("click", function (event) {
   event.preventDefault();
   var listEl = document.querySelector(".list");
   while (listEl.firstChild) {
     listEl.removeChild(listEl.firstChild);
   }
+});
+
+// Navigate to scoreboard from initial page load
+scoreButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  containerEl.setAttribute("class", "hidden");
+  incorrectEl[1].setAttribute("class", "hidden");
+  incorrectEl[2].setAttribute("class", "card");
+});
+
+// Reload page after navigating to scoreboard
+overButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  location.reload();
 });
